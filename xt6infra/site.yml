@@ -1,0 +1,16 @@
+---
+# This playbook deploys the whole application stack in this site.
+#
+# (c) CarlosM, based on previous example by juancarlos@lacnic.net
+# v1 20191226
+
+- name: Instala utiles y paquetes basicos
+  hosts: docker_local
+  remote_user: carlos
+  become: true
+
+  roles:
+    - utiles
+    
+
+

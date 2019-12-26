@@ -1,0 +1,5 @@
+[docker_local]
+happy-everafter
+
+[cont:vars]
+ansible_connection=docker
