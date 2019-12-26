@@ -1,0 +1,79 @@
+---
+# This playbook will install Observium in /opt/observium
+
+- name: Install Observium 
+  subversion:
+    username: lacnic-4426
+    password: cofdus85
+    repo: http://svn.observium.org/svn/observium/branches/stable
+    dest: /opt/observium
+
+- name: Crea directorio de logs para Observium
+  file:
+    path: /opt/observium/logs 
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Crea directorio de rrd para Observium
+  file:
+    path: /opt/observium/rrd
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copia configuracion de Observium
+  template:
+    src: templates/config.php.j2
+    dest: /opt/observium/config.php
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Seteo permisos para el arbol de Observium
+  file:
+    dest: /opt/observium/html
+    owner: www-data
+    group: www-data
+    mode: 0775
+    recurse: yes
+
+- name: Copia config. de apache2
+  copy:
+    src: files/000-default.conf
+    dest: /etc/apache2/sites-available/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copia config. de cron
+  copy:
+    src: files/observium.cron
+    dest: /etc/cron.d/observium
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Habilito mcrypt para PHP
+  action: command phpenmod mcrypt    
+
+- name: Habilito PHP7 y cambio a mpm_prefork. Modrewrite xa Apache
+  command: "{{ item  }}" 
+  with_items:
+     - a2dismod mpm_event
+     - a2enmod mpm_prefork
+     - a2enmod php7.0
+     - a2enmod rewrite
+
+- name: Creo usuario administrador y discovery inicial
+  shell: "{{ item  }}" 
+  with_items:
+     - '/usr/bin/php7.0 /opt/observium/discovery.php -h all'
+     - '/usr/bin/php7.0 /opt/observium/adduser.php admin Admin2017 10'
+     - '/usr/bin/php7.0 /opt/observium/add_device.php localhost comunidad v2c'
+     - '/usr/bin/php7.0 /opt/observium/poller.php -h all'
+  args:
+    executable: /usr/bin/php7.0
+

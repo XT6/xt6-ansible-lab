@@ -1,0 +1,23 @@
+- name: Restart Mysql Service
+  service: 
+    name: mysql 
+    state: restarted
+
+- name: Restart Apache2 Service
+  service: 
+     name: apache2 
+     state: restarted
+
+- name: Restart BIND9 Service
+  service:   
+     name: bind9 
+     state: restarted 
+
+- name: Restart SNMPD Service
+  service:   
+     name: snmpd 
+     state: restarted 
+
+- name: reload aliases
+  command: newaliases
+

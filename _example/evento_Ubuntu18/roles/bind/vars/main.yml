@@ -1,0 +1,13 @@
+---
+bind_config_basepath: /etc/bind
+bind_user: bind
+bind_group: bind
+bind_service_name: bind9
+bind_pkgs:
+  - bind9
+  - dnsutils
+resolv_ns_1: "8.8.8.8"
+resolv_ns_2: "8.8.4.4"
+search_resolv_domain: "lacnic.net"
+
+

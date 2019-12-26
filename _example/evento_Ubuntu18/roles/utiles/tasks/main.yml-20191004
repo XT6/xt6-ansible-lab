@@ -1,0 +1,52 @@
+---
+# Instala las herramientas de base el server
+
+- name: Instalar repos adicionales para Ubuntu 18
+  apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+    state: present
+
+- name: Instalar dependencias para el server
+  # apt: name={{ item }} state=build-dep update_cache=yes 
+  apt: name={{ item }} update_cache=yes 
+  with_items:
+    - apache2
+    - libapache2-mod-php7.2
+    - php7.2-cli
+    - php7.2-mysql
+    - php7.2-gd
+    # - php7.2-mcrypt
+    - php7.2-json
+    - php-pear
+    - python-mysqldb
+    - rrdtool
+    - subversion
+    - whois
+    - mtr-tiny
+    - ipmitool
+    - imagemagick
+    - php7.2-mysqli
+    - snmp
+    - fping
+    - graphviz
+    - snmpd
+    - mailutils
+    - sendmail
+
+- name: Copia config. de SNMP
+  template: 
+    src=snmpd.conf.j2 
+    dest=/etc/snmp/snmpd.conf
+
+- name: Copia /etc/aliases
+  copy:
+    src: files/aliases
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Deshabilito UFW
+  ufw:
+    state: disabled
+

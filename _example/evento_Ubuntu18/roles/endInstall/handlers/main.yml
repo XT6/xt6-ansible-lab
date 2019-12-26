@@ -1,0 +1,14 @@
+# Varios Handlers para reiniciar servicios y finalizar instalacion
+
+- name: Restart mysql
+  service: name=mysql state=restarted
+
+- name: Restart apache2
+  service: name=apache2 state=restarted
+
+- name: Restart BIND9
+  service: name=bind state=restarted
+
+- name: Retart SNMPD
+  service: name=snmpd state=retarted
+

@@ -1,0 +1,20 @@
+---
+# Playbook para instalar iptables
+
+- name: Instala iptables-persistent
+  apt: name=iptables-persistent state=present
+
+- name: Instala Fail2Ban software 
+  apt: name=fail2ban state=present
+
+- name: restart fail2ban
+  service: name=fail2ban state=restarted
+
+- name: Copia iptables.rules a /etc
+  copy:
+    src: files/iptables.rules
+    dest: /etc
+    owner: root
+    group: root
+    mode: 0644 
+

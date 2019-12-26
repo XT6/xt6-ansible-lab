@@ -1,0 +1,21 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -p udp -m udp -m multiport --dports 33433:33690 -j ACCEPT
+
+## engenharia
+-A INPUT -s 200.160.3.64/26 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -s 200.160.5.216/32 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -s 200.7.87.0/25 -p tcp -m tcp --dport 22 -j ACCEPT
+
+#-A INPUT -p tcp -m tcp -m multiport --dports 80,443 -j ACCEPT
+-A INPUT -s 189.76.96.0/19 -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -s 189.76.96.0/19 -p tcp -m tcp --dport 53 -j ACCEPT
+
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+COMMIT
+

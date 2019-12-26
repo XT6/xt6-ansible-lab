@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+_example/evento_Ubuntu18/.DS_Store

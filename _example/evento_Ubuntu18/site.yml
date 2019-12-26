@@ -1,0 +1,51 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: Instala utiles y paquetes basicos
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - utiles
+  
+- name: Instala firewall, reglas y persistencia
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - firewall
+  
+- name: Instala MySQL y DBs necesarias
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - database
+  
+- name: Instala Observium
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - observium
+
+- name: Instalacion de BIND 9
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - bind
+
+- name: Reinicio de los servicios instalados
+  hosts: evento
+  remote_user: jotace
+  become: true
+
+  roles:
+    - endInstall
+

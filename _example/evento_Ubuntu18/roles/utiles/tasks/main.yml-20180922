@@ -1,0 +1,42 @@
+---
+# Instala las herramientas de base el server
+
+- name: Instalar dependencias para el server
+  # apt: name={{ item }} state=build-dep update_cache=yes 
+  apt: name={{ item }} update_cache=yes 
+  with_items:
+    - apache2
+    - libapache2-mod-php7.0
+    - php7.0-cli
+    - php7.0-mysql
+    - php7.0-gd
+    - php7.0-mcrypt
+    - php7.0-json
+    - php-pear
+    - python-mysqldb
+    - rrdtool
+    - subversion
+    - whois
+    - mtr-tiny
+    - ipmitool
+    - imagemagick
+    - php7.0-mysqli
+    - snmp
+    - fping
+    - graphviz
+    - snmpd
+    - mailutils
+    - sendmail
+
+- name: Copia config. de SNMP
+  copy:
+    src: files/snmpd.conf
+    dest: /etc/snmp
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Deshabilito UFW
+  ufw:
+    state: disabled
+
