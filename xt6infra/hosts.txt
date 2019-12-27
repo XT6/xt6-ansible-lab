@@ -2,5 +2,5 @@
 happy-everafter
 
 [docker_local:vars]
-ansible_connection=local
+ansible_connection=docker
 ansible_user=root

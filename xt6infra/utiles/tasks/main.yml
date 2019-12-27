@@ -2,17 +2,26 @@
 # Instala las herramientas de base el server
 
 - name: Instalar dependencias para el apt y fixear el update 
-  command: /usr/bin/apt-get clean
+  shell: | 
+     /usr/bin/apt clean && /usr/bin/apt update
+     apt-get -y install python3.6
+     apt-get -y --reinstall install python3-apt
+     ln -sf /usr/bin/python3.6 /usr/bin/python
+  args:
+    executable: /bin/sh
 
 - name: Instalar repos adicionales para Ubuntu 18
   apt_repository:
     repo: deb http://archive.ubuntu.com/ubuntu bionic universe
     state: present
 
-- name: Borrar link simbolico de python -> python2.6
+- name: Create symbolic link de python -> python3.7
   file:
-    path: /usr/bin/python
-    state: absent
+    src: /usr/bin/python3.6
+    dest: /usr/bin/python
+    owner: root
+    group: root
+    state: link 
 
 - name: Instalar dependencias para el server
   apt: 
@@ -30,11 +39,10 @@
       - curl
       - snmp
       - snmpd
-      - python3-apt
       - software-properties-common
     update_cache: yes
 
-- name: Create symbolic link de python -> python3.7
+- name: Create symbolic link de python -> python3.6
   file:
     src: /usr/bin/python3.6
     dest: /usr/bin/python
