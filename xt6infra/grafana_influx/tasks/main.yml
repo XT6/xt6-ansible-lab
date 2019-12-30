@@ -1,0 +1,63 @@
+---
+# Instala un grafana y un influx
+# asume que el rol utiles ya se ejecuto
+
+- name: Agregar el repo de grafana para 18.04
+  shell: | 
+     wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+     sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+  args:
+    executable: /bin/sh
+
+- name: Instalar Grafana
+  apt: 
+    pkg: 
+      - grafana
+    state: present
+    update_cache: yes
+
+- name: Instalar InfluxDB
+  apt: 
+    pkg: 
+      - influxdb
+      - influxdb-client
+    state: present
+    update_cache: yes
+
+
+- name: Asegurar que el servicio grafana esta corriendo
+  service:
+     name: grafana-server
+     enabled: yes
+     state: restarted
+
+- name: Asegurar que el servicio influxdb esta corriendo
+  service:
+     name: influxdb
+     enabled: yes
+     state: restarted
+
+# - name: Create symbolic link de python -> python3.6
+#   file:
+#     src: /usr/bin/python3.6
+#     dest: /usr/bin/python
+#     owner: root
+#     group: root
+#     state: link 
+
+# - name: Copia config. de SNMP
+#   template: 
+#     src=snmpd.conf.j2 
+#     dest=/etc/snmp/snmpd.conf
+
+# - name: Copia /etc/aliases
+#   copy:
+#     src: files/aliases
+#     dest: /etc
+#     owner: root
+#     group: root
+#     mode: 0644
+
+# - name: Deshabilito UFW
+#  ufw:
+#    state: disabled

@@ -5,10 +5,10 @@
 # v1 20191226
 
 - name: Instala utiles y paquetes basicos
-  hosts: docker_local
-  remote_user: carlos
-  become: false
+  hosts: all
+  remote_user: vagrant
+  become: true
 
   roles:
     - utiles
-    
+    - grafana_influx
