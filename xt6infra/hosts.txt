@@ -15,6 +15,8 @@ ns1.in.xt6.us
 ns2.in.xt6.us
 ns3.in.xt6.us
 cocoliso.in.xt6.us
+
+[proxmox_cts_turnkey]
 nube.in.xt6.us
 fserver.in.xt6.us
 
@@ -23,6 +25,11 @@ ansible_user=root
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
 [proxmox_cts:vars]
+ansible_user=root
+ansible_become=no
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[proxmox_cts_turnkey:vars]
 ansible_user=root
 ansible_become=no
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
