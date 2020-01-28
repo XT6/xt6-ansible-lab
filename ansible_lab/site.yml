@@ -6,7 +6,9 @@
 
 - name: Instala utiles y paquetes basicos
   hosts: all
+  remote_user: vagrant
   become: true
 
   roles:
     - utiles
+    - grafana_influx
