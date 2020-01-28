@@ -1,6 +1,33 @@
-[docker_local]
-happy-everafter
+[proxmox_cluster]
+nutria.in.xt6.us 
+caiman.in.xt6.us
+puma.in.xt6.us 
 
-[docker_local:vars]
-ansible_connection=docker
+[proxmox_vms]
+dikembe.in.xt6.us
+lebron.in.xt6.us
+alonso.in.xt6.us
+
+[proxmox_cts]
+gitlab.in.xt6.us
+trac.in.xt6.us
+ns1.in.xt6.us
+ns2.in.xt6.us
+ns3.in.xt6.us
+cocoliso.in.xt6.us
+nube.in.xt6.us
+fserver.in.xt6.us
+
+[proxmox_cluster:vars]
 ansible_user=root
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[proxmox_cts:vars]
+ansible_user=root
+ansible_become=no
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[proxmox_vms:vars]
+ansible_user=carlos
+ansible_become=yes
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

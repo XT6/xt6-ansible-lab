@@ -4,9 +4,20 @@
 # (c) CarlosM, based on previous example by juancarlos@lacnic.net
 # v1 20191226
 
-- name: Instala utiles y paquetes basicos
-  hosts: all
+- name: Actualiza usuarios y claves ssh para TODOS
+  hosts: proxmox_cluster, proxmox_vms
   become: true
-
   roles:
-    - utiles
+    - user_maint
+
+- name: Instala utiles y paquetes basicos para TODOS
+  hosts: proxmox_cluster, proxmox_vms
+  become: true
+  roles:
+   - utiles
+
+- name: Actualiza los paquetes para todos menos para los nodos hw del cluster
+  hosts: proxmox_vms, proxmox_cts
+  become: true
+  roles:
+    - pkg_update

@@ -1,68 +1,34 @@
 ---
 # Instala las herramientas de base el server
 
-- name: Instalar dependencias para el apt y fixear el update 
-  shell: | 
-     /usr/bin/apt clean && /usr/bin/apt update
-     apt-get -y install python3.6
-     apt-get -y --reinstall install python3-apt
-     ln -sf /usr/bin/python3.6 /usr/bin/python
-  args:
-    executable: /bin/sh
-
-- name: Instalar repos adicionales para Ubuntu 18
-  apt_repository:
-    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+- name: Asegurar que existen grupos adm,sudo,carlos
+  group:
+    name: "{{ item }}"
     state: present
+  loop:
+    - adm
+    - sudo
+    - carlos
 
-- name: Create symbolic link de python -> python3.7
-  file:
-    src: /usr/bin/python3.6
-    dest: /usr/bin/python
-    owner: root
-    group: root
-    state: link 
 
-- name: Instalar dependencias para el server
-  apt: 
-    pkg: 
-      - nginx
-      - certbot
-      - python3-mysqldb
-      - python3-pymysql
-      - rrdtool
-      - htop
-      - whois
-      - mtr-tiny
-      - vim-tiny
-      - wget
-      - curl
-      - snmp
-      - snmpd
-      - software-properties-common
-    update_cache: yes
+- name: Crear usuario carlos
+  user: 
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+    groups: adm,sudo
+    append: yes
+  loop:
+    - carlos
 
-- name: Create symbolic link de python -> python3.6
-  file:
-    src: /usr/bin/python3.6
-    dest: /usr/bin/python
-    owner: root
-    group: root
-    state: link 
+- name: asegurar que la clave publica de ssh esta subida
+  authorized_key:
+      user: carlos
+      key: '{{ item }}'
+      state: present
+  with_file:
+     - files/carlosm-lacnic-rsa.pub
+     - files/carlosm-lacnic-ed25519.pub
 
-- name: Copia config. de SNMP
-  template: 
-    src=snmpd.conf.j2 
-    dest=/etc/snmp/snmpd.conf
 
-- name: Copia /etc/aliases
-  copy:
-    src: files/aliases
-    dest: /etc
-    owner: root
-    group: root
-    mode: 0644
 
-# - name: Deshabilito UFW
-#  ufw:
-#    state: disabled

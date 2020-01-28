@@ -1,0 +1,12 @@
+- name: Copiar la configuracion del proxy a todos los nodos
+  copy:
+    src: files/00proxy
+    dest: /etc/apt/apt.conf.d
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Actualizar el cache de apt y hacer un upgrade simple
+  apt: 
+    update_cache: yes
+    upgrade: safe
