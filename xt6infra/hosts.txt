@@ -1,3 +1,6 @@
+[network]
+192.168.88.1	ansible_user=ansible 	ansible_ssh_extra_args='-o StrictHostKeyChecking=no'  ansible_network_os=routeros
+
 [proxmox_cluster]
 nutria.in.xt6.us 
 caiman.in.xt6.us
@@ -7,6 +10,9 @@ puma.in.xt6.us
 dikembe.in.xt6.us
 lebron.in.xt6.us
 alonso.in.xt6.us
+gdns1.in.xt6.us
+gdns2.in.xt6.us
+gdns3.in.xt6.us
 
 [proxmox_cts]
 gitlab.in.xt6.us
@@ -15,6 +21,7 @@ ns1.in.xt6.us
 ns2.in.xt6.us
 ns3.in.xt6.us
 cocoliso.in.xt6.us
+hermes.in.xt6.us
 
 [proxmox_cts_turnkey]
 nube.in.xt6.us

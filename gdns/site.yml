@@ -21,10 +21,3 @@
   become: true
   roles:
     - pkg_update
-
-- name: Chequeos de sanidad en la red
-  hosts: network
-  connection: network_cli
-  gather_facts: no
-  roles:
-    - network

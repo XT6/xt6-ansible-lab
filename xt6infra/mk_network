@@ -1,0 +1,5 @@
+#!/usr/bin/ssh-agent bash
+
+ssh-add ~/.ssh/id_automation_nopass
+
+ansible-playbook -i hosts.txt site.yml --limit network

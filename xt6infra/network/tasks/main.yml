@@ -1,0 +1,16 @@
+- name: Print interface information
+  routeros_command:
+    commands: 
+      - /ip route remove [find gateway="192.168.1.1"]
+
+- name: Remove strange route
+  routeros_command:
+    commands: 
+      - /system routerboard print
+      - /ip route print
+  register: interfaces_output
+
+- name: Print interfaces
+  debug:
+    var: interfaces_output
+

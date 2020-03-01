@@ -1,0 +1,10 @@
+[gdns]
+gdns1.in.xt6.us 
+gdns2.in.xt6.us
+gdns3.in.xt6.us 
+
+[gdns:vars]
+ansible_user=carlos
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+ansible_become=yes
+
