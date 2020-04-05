@@ -1,6 +1,15 @@
-#!/bin/sh
+#!/bin/bash
+
+# Load ssh agent and ssh keys
+
+echo LOADING SSH AGENT AND KEYS
+eval $(ssh-agent)
+ssh-add $HOME/.ssh/id_automation_nopass
+echo KEYS LOADED
+echo " --- "
 
 # ansible-playbook -i hosts site.yml --ask-sudo
 #ansible-playbook site.yml --tags "obs-admin,obs-hosts" --ask-sudo
 # ansible-playbook -i hosts.txt site.yml --ask-become-pass
-ansible-playbook -i hosts.txt site.yml --ask-pass --ask-become-pass
+
+ansible-playbook -i hosts.txt site.yml --ask-pass --ask-become-pass $1 $2 $3 $4 $5

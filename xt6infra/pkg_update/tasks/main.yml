@@ -10,3 +10,17 @@
   apt: 
     update_cache: yes
     upgrade: safe
+    autoremove: yes
+
+- name: Borrar el cache de APT para algunos hosts
+  command: apt-get clean
+  args:
+    warn: no
+  tags: clean
+  when: "'gdns' in inventory_hostname"
+
+- name: Vaciar el journal para los ultimos 3 dias solamente 
+  command: journalctl --vacuum-time=3d
+  tags: clean
+  when: "'gdns' in inventory_hostname"
+

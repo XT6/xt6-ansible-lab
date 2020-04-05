@@ -11,7 +11,7 @@
     - carlos
 
 
-- name: Crear usuario carlos
+- name: Crear usuarios carlos,sa
   user: 
     name: "{{ item }}"
     state: present
@@ -29,6 +29,15 @@
   with_file:
      - files/carlosm-lacnic-rsa.pub
      - files/carlosm-lacnic-ed25519.pub
+     - files/id_automation_nopass.pub
+
+- name: asegurar que la clave publica de ssh esta subida para sa
+  authorized_key:
+      user: carlos
+      key: '{{ item }}'
+      state: present
+  with_file:
+     - files/id_automation_nopass.pub
 
 - name: asegurar que la clave publica de ssh esta subida para root
   authorized_key:

@@ -2,4 +2,6 @@
 
 ssh-add ~/.ssh/id_automation_nopass
 
+cd /home/carlos/checkouts/xt6-ansible-lab.git/xt6infra
+
 ansible-playbook -i hosts.txt site.yml --limit network
