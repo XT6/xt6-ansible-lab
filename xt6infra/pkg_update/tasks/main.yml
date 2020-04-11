@@ -5,6 +5,14 @@
     owner: root
     group: root
     mode: 0644
+  when: external_host is undefined
+
+- name: Borrar el apt proxy de los hosts externos
+  file:
+    path: /etc/apt/apt.conf.d/00proxy
+    state: absent
+  tags: clean
+  when: external_host is defined 
 
 - name: Actualizar el cache de apt y hacer un upgrade simple
   apt: 

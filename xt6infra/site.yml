@@ -5,20 +5,21 @@
 # v1 20191226
 
 - name: Actualiza usuarios y claves ssh para TODOS
-  hosts: proxmox_cluster, proxmox_vms, proxmox_cts
+  hosts: proxmox_cluster, proxmox_vms, proxmox_cts, external_vms
   become: true
   roles:
     - user_maint
 
 - name: Instala utiles y paquetes basicos para TODOS
-  hosts: proxmox_cluster, proxmox_vms, proxmox_cts
+  hosts: proxmox_cluster, proxmox_vms, proxmox_cts, external_vms
   become: true
   roles:
    - utiles
 
 - name: Actualiza los paquetes para todos menos para los nodos hw del cluster
-  hosts: proxmox_vms, proxmox_cts, proxmox_cts_turnkey
+  hosts: proxmox_vms, proxmox_cts, proxmox_cts_turnkey, external_vms
   become: true
+  tags: pkgupdate
   roles:
     - pkg_update
 

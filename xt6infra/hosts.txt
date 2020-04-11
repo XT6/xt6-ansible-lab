@@ -29,6 +29,7 @@ ns3.in.xt6.us
 cocoliso.in.xt6.us
 hermes.in.xt6.us
 conference.in.xt6.us
+monitor.in.xt6.us
 
 [proxmox_cts_turnkey]
 nube.in.xt6.us
@@ -38,6 +39,11 @@ openvpn.in.xt6.us
 [proxmox_cluster:vars]
 ansible_user=root
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[external_vms:vars]
+ansible_user=carlos
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+external_host=true
 
 [proxmox_cts:vars]
 ansible_user=root
