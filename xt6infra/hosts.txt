@@ -30,6 +30,7 @@ cocoliso.in.xt6.us
 hermes.in.xt6.us
 conference.in.xt6.us
 monitor.in.xt6.us
+mediaserver.in.xt6.us
 
 [proxmox_cts_turnkey]
 nube.in.xt6.us
