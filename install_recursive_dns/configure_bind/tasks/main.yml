@@ -1,67 +1,60 @@
 ---
 # Instala las herramientas de base el server
 
-- name: Instalar dependencias para el apt y fixear el update 
-  shell: | 
-     /usr/bin/apt clean && /usr/bin/apt update
-     apt-get -y install python3.6
-     apt-get -y --reinstall install python3-apt
-     ln -sf /usr/bin/python3.6 /usr/bin/python
-  args:
-    executable: /bin/sh
-
-- name: Instalar repos adicionales para Ubuntu 18
-  apt_repository:
-    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
-    state: present
-
-- name: Create symbolic link de python -> python3.7
+- name: Crea arbol de directorios en /home/bind9
   file:
-    src: /usr/bin/python3.6
-    dest: /usr/bin/python
-    owner: root
-    group: root
-    state: link 
+    path: '{{ item.dst }}'
+    owner: bind9
+    group: bind9
+    state: directory
+    mode: 0755
+  loop:
+    - { dst: /home/bind9/etc }
+    - { dst: /home/bind9/bin }
+    - { dst: /home/bind9/var }
+    - { dst: /home/bind9/var/zones }
+    - { dst: /home/bind9/var/log }
+    - { dst: /home/bind9/var/run }
+    - { dst: /home/bind9/var/run/named }
+    - { dst: /home/bind9/var/tmp }
 
-- name: Instalar dependencias para el server
-  apt: 
-    pkg: 
-      - nginx
-      - certbot
-      - python3-mysqldb
-      - python3-pymysql
-      - rrdtool
-      - htop
-      - whois
-      - mtr-tiny
-      - vim-tiny
-      - wget
-      - curl
-      - snmp
-      - snmpd
-      - software-properties-common
-    update_cache: yes
-
-- name: Create symbolic link de python -> python3.6
-  file:
-    src: /usr/bin/python3.6
-    dest: /usr/bin/python
-    owner: root
-    group: root
-    state: link 
-
-- name: Copia config. de SNMP
-  template: 
-    src=snmpd.conf.j2 
-    dest=/etc/snmp/snmpd.conf
-
-- name: Copia /etc/aliases
+- name: Copia archivos de configuración y zona root
   copy:
-    src: files/aliases
-    dest: /etc
+    src: '{{ item.src }}'
+    dest: '{{ item.dst }}'
+    owner: bind9
+    group: bind9
+    mode: 0644
+  loop:
+    - { src: files/db.root, dst: /home/bind9/etc/ }
+    - { src: files/named.conf, dst: /home/bind9/etc/ }
+
+- name: Copia perfil de apparmor y configuracion default del servicio
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dst }}'
     owner: root
     group: root
-    mode: 0644
+    mode: 0611
+  loop:
+    - { src: files/usr.sbin.named, dst: /etc/apparmor.d/usr.sbin.named }
+    - { src: files/etc.default.bind9, dst: /etc/default/bind9}
+
+- name: Reinicia el proceso de apparmor
+  service:
+    name: apparmor
+    state: restarted
+
+- name: Reinicia el proceso de bind9
+  service:
+    name: bind9
+    state: stopped
+
+- name: Reinicia el proceso de bind9
+  service:
+    name: bind9
+    state: started
+
 
 # - name: Deshabilito UFW
 #  ufw:

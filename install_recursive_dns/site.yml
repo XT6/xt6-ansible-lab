@@ -11,6 +11,7 @@
 
   roles:
     - users_and_packages
+    - configure_bind
 
 
 #    - install_bind
