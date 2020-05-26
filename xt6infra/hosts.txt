@@ -8,7 +8,7 @@ atl02.xt6.us
 jfk01.xt6.us
 
 [proxmox_cluster]
-nutria.in.xt6.us 
+mulita.in.xt6.us 
 caiman.in.xt6.us
 puma.in.xt6.us 
 
