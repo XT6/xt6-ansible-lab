@@ -28,6 +28,7 @@
   loop:
     - { src: files/db.root, dst: /home/bind9/etc/ }
     - { src: files/named.conf, dst: /home/bind9/etc/ }
+    - { src: files/named.logging.conf, dst: /home/bind9/etc/ }
 
 - name: Copia perfil de apparmor y configuracion default del servicio
   copy:
@@ -45,16 +46,15 @@
     name: apparmor
     state: restarted
 
-- name: Reinicia el proceso de bind9
+- name: Detiene el proceso de bind9
   service:
     name: bind9
     state: stopped
 
-- name: Reinicia el proceso de bind9
+- name: Inicia el proceso de bind9
   service:
     name: bind9
     state: started
-
 
 # - name: Deshabilito UFW
 #  ufw:
