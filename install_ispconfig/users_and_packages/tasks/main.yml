@@ -3,22 +3,33 @@
 #
 # 
 
-- name: Instalar dependencias para el apt y fixear el update 
+- name: Instalar dependencias para el apt 
   shell: | 
      /usr/bin/apt clean && /usr/bin/apt update
 #     apt-get -y install python3.6
   args:
     executable: /bin/sh
 
-- name: Instalar dependencias para el quota support y otros
+- name: Instalar dependencias para el quota support, sudo, bind y otros
   apt: 
     pkg: 
       - bind9utils
       - bind9-host
       - sudo
+      - linux-image-extra-virtual
     update_cache: yes
 
-- name: Instalar dependencias para el quota support y otros
+- name: Copia archivos de configuración varios
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dst }}'
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - { src: files/etc.hosts, dst: /etc/hosts }
+
+- name: Instalar amavis y clamav
   apt: 
     pkg: 
       - amavisd-new
@@ -35,17 +46,6 @@
     append: yes
   loop:
     - sadm
-
-- name: Copia archivos de configuración varios
-  copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dst }}'
-    owner: root
-    group: root
-    mode: 0644
-  loop:
-    - { src: files/etc.hosts, dst: /etc/hosts }
-    - { src: 05-node_id, dst: /etc/amavis/conf.d/05-node_id }
 
 # - name: Copia config. de SNMP
 #  template: 

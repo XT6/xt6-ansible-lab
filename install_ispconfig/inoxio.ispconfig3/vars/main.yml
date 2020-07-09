@@ -21,3 +21,4 @@ ispconfig_mysql_master_root_password: Asldfjqe4kL
 
 # Quota
 quota_mounts:
+#   - /
