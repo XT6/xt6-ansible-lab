@@ -1,0 +1,30 @@
+---
+- name: Restore old debconf
+  copy:
+    src: /var/cache/debconf_old/config.dat
+    dest: /var/cache/debconf/config.dat
+    remote_src: true
+
+- name: Restore old debconf
+  copy:
+    src: /var/cache/debconf_old/config.dat-old
+    dest: /var/cache/debconf/config.dat-old
+    remote_src: true
+
+- name: Restore old debconf
+  copy:
+    src: /var/cache/debconf_old/passwords.dat
+    dest: /var/cache/debconf/passwords.dat
+    remote_src: true
+
+- name: Restore old debconf
+  copy:
+    src: /var/cache/debconf_old/templates.dat
+    dest: /var/cache/debconf/templates.dat
+    remote_src: true
+
+- name: Restore old debconf
+  copy:
+    src: /var/cache/debconf_old/templates.dat-old
+    dest: /var/cache/debconf/templates.dat-old
+    remote_src: true

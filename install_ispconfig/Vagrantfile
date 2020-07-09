@@ -12,8 +12,11 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/bionic64"
-  # config.vm.box = "ubuntu/xenial64"
+
+  config.vm.define "ispconfig3" do |ispc3|
+  	ispc3.vm.box = "ubuntu/bionic64"
+  	ispc3.vm.hostname = "ispconfig3"
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -21,7 +24,11 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = false
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 53, host: 53, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 53, host: 9053, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 443, host: 8453, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 110, host: 9110, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 143, host: 9143, host_ip: "127.0.0.1"
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "site.yml"

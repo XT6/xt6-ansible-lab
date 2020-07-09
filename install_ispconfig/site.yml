@@ -1,31 +1,32 @@
 ---
-# This playbook deploys the whole application stack in this site.
+# This playbook deploys an ISPCONFIG install
 #
 # (c) CarlosM, based on previous example by juancarlos@lacnic.net
-# v1 20191226
+# v1 20200708
+# ISPCONFIG specifics, https://github.com/inoxio/ansible-role-ispconfig3
 
-- name: Actualiza usuarios y claves ssh para TODOS
-  hosts: proxmox_cluster, proxmox_vms, proxmox_cts, external_vms
-  become: true
-  roles:
-    - user_maint
+# - name: Actualiza usuarios y claves ssh para TODOS
+#   hosts: proxmox_cluster, proxmox_vms, proxmox_cts, external_vms
+#   become: true
+#   roles:
+#     - user_maint
 
-- name: Instala utiles y paquetes basicos para TODOS
-  hosts: proxmox_cluster, proxmox_vms, proxmox_cts, external_vms
-  become: true
-  roles:
-   - utiles
+# - name: Actualiza los paquetes para todos menos para los nodos hw del cluster
+#   hosts: proxmox_vms, proxmox_cts, proxmox_cts_turnkey, external_vms
+#   become: true
+#   tags: pkgupdate
+#   roles:
+#     - pkg_update
 
-- name: Actualiza los paquetes para todos menos para los nodos hw del cluster
-  hosts: proxmox_vms, proxmox_cts, proxmox_cts_turnkey, external_vms
-  become: true
-  tags: pkgupdate
-  roles:
-    - pkg_update
+# - name: Chequeos de sanidad en la red
+#   hosts: network
+#   connection: network_cli
+#   gather_facts: no
+#   roles:
+#     - network
 
-- name: Chequeos de sanidad en la red
-  hosts: network
-  connection: network_cli
-  gather_facts: no
+- name: Instala el ISPCONFIG3
+  hosts: all
   roles:
-    - network
+    - inoxio.ispconfig3
+
