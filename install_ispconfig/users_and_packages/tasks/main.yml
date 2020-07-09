@@ -1,0 +1,65 @@
+---
+# ROLE users_and_packages
+#
+# 
+
+- name: Instalar dependencias para el apt y fixear el update 
+  shell: | 
+     /usr/bin/apt clean && /usr/bin/apt update
+#     apt-get -y install python3.6
+  args:
+    executable: /bin/sh
+
+- name: Instalar dependencias para el quota support y otros
+  apt: 
+    pkg: 
+      - bind9utils
+      - bind9-host
+      - sudo
+    update_cache: yes
+
+- name: Instalar dependencias para el quota support y otros
+  apt: 
+    pkg: 
+      - amavisd-new
+      - clamav
+      - clamav-daemon
+    update_cache: no
+
+- name: Crear el usuario sadm con home en /home/sadm
+  user: 
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+    home: "/home/{{ item }}"
+    append: yes
+  loop:
+    - sadm
+
+- name: Copia archivos de configuración varios
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dst }}'
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - { src: files/etc.hosts, dst: /etc/hosts }
+    - { src: 05-node_id, dst: /etc/amavis/conf.d/05-node_id }
+
+# - name: Copia config. de SNMP
+#  template: 
+#    src=snmpd.conf.j2 
+#    dest=/etc/snmp/snmpd.conf
+
+#- name: Copia /etc/aliases
+#  copy:
+#    src: files/aliases
+#    dest: /etc
+#    owner: root
+#    group: root
+#    mode: 0644
+
+# - name: Deshabilito UFW
+#  ufw:
+#    state: disabled
