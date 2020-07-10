@@ -35,6 +35,7 @@
       - amavisd-new
       - clamav
       - clamav-daemon
+      - spamassassin
     update_cache: no
 
 - name: Crear el usuario sadm con home en /home/sadm
