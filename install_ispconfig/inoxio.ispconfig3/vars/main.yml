@@ -1,0 +1,24 @@
+---
+# vars file for inoxio.ispconfig3
+ispconfig_version: '3.1.14p2'
+ispconfig_patch: '3.1'
+ispconfig_patch_version: '2.11'
+php_version: '7.2'
+jailkit_version: '2.20'
+
+mail_admin_email: email@your-company.com
+mail_base_domain: your-company.com
+
+ispconfig_hostname: ispconfig.your-company.com
+ispconfig_admin_password: cocoliso123
+
+roundcube_hostname: mail.your-company.com
+roundcube_admin_password: admin
+
+phpmyadmin_hostname: localhost
+
+ispconfig_mysql_master_root_password: Asldfjqe4kL
+
+# Quota
+quota_mounts:
+#   - /

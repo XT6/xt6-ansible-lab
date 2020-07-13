@@ -1,0 +1,21 @@
+---
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+    update_cache: yes
+
+- name: Write jail.local
+  copy:
+    src: files/etc/fail2ban/jail.local
+    dest: /etc/fail2ban/jail.local
+
+- name: Restart fail2ban
+  service:
+    name: fail2ban
+    state: restarted
+
+- name: Install ufw
+  apt:
+    name: ufw
+    state: present

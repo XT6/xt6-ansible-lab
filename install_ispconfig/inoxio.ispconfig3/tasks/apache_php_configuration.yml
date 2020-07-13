@@ -1,0 +1,119 @@
+---
+- name: Install required software for Apache
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - apache2
+      - apache2-suexec-pristine
+      - apache2-utils
+      - imagemagick
+      - libapache2-mod-fcgid
+      - libapache2-mod-php
+      - mcrypt
+      - memcached
+      - php-apcu
+      - php-gettext
+      - php-imagick
+      - php-memcache
+      - php-pear
+      - php-soap
+      - php{{ php_version }}
+      - php{{ php_version }}-cgi
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-common
+      - php{{ php_version }}-curl
+      - php{{ php_version }}-fpm
+      - php{{ php_version }}-gd
+      - php{{ php_version }}-imap
+      - php{{ php_version }}-intl
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-mysql
+      - php{{ php_version }}-opcache
+      - php{{ php_version }}-pspell
+      - php{{ php_version }}-recode
+      - php{{ php_version }}-soap
+      - php{{ php_version }}-sqlite3
+      - php{{ php_version }}-tidy
+      - php{{ php_version }}-xmlrpc
+      - php{{ php_version }}-xsl
+      - php{{ php_version }}-zip
+
+# ----------------Configure apache----------------
+- name: Setup letsencrypt config
+  copy:
+    src: files/etc/apache2/conf-available/letsencrypt.conf
+    dest: /etc/apache2/conf-available/letsencrypt.conf
+    mode: 0644
+
+- name: Enable letsencrypt config
+  command: 'a2enconf letsencrypt'
+
+- name: Create letsencrypt wellknown-directory
+  command: mkdir --parents /var/www/letsencrypt
+  args:
+    creates: /var/www/letsencrypt
+
+- name: Make sure wellknown directory stays
+  command: touch /var/www/letsencrypt/.keep
+  args:
+    creates: /var/www/letsencrypt/.keep
+
+- name: Enable apache modules
+  apache2_module:
+    state: present
+    name: '{{ item }}'
+  with_items:
+    - actions
+    - include
+    - proxy_fcgi
+    - rewrite
+    - ssl
+    - suexec
+
+- name: Check if httpoxy.conf exists
+  stat:
+    path: "/etc/apache2/conf-available/httpoxy.conf"
+  register: httpoxy_result
+
+- name: Create httpoxy.conf
+  file:
+    path: "/etc/apache2/conf-available/httpoxy.conf"
+    state: touch
+  when: not httpoxy_result.stat.exists
+
+- name: Disable http_proxy header
+  lineinfile:
+    path: /etc/apache2/conf-available/httpoxy.conf
+    line: '<IfModule mod_headers.c>'
+  when: not httpoxy_result.stat.exists
+
+- name: Disable http_proxy header
+  lineinfile:
+    path: /etc/apache2/conf-available/httpoxy.conf
+    line: '    RequestHeader unset Proxy early'
+  when: not httpoxy_result.stat.exists
+
+- name: Disable http_proxy header
+  lineinfile:
+    path: /etc/apache2/conf-available/httpoxy.conf
+    line: '</IfModule>'
+  when: not httpoxy_result.stat.exists
+
+- name: Enable httpoxy config
+  command: 'a2enconf httpoxy'
+  when: not httpoxy_result.stat.exists
+
+- name: Comment application/x-ruby rb
+  replace:
+    path: /etc/mime.types
+    regexp: '^(.*application/x-ruby.*rb)$'
+    replace: '#\1'
+
+# ----------------Restart apache----------------
+- name: Restart apache
+  service:
+    name: apache2
+    state: restarted
