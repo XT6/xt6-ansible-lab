@@ -28,7 +28,6 @@ ns2.in.xt6.us
 ns3.in.xt6.us
 cocoliso.in.xt6.us
 hermes.in.xt6.us
-conference.in.xt6.us
 monitor.in.xt6.us
 mediaserver.in.xt6.us
 
