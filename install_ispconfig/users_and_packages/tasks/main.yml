@@ -17,6 +17,7 @@
       - bind9-host
       - sudo
       - linux-image-extra-virtual
+      - cerbot 
     update_cache: yes
 
 - name: Copia archivos de configuración varios
