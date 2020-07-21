@@ -13,7 +13,7 @@ ispconfig_configure_ftp: y
 ispconfig_configure_jailkit: y
 ispconfig_configure_mail: y
 ispconfig_configure_nginx: n
-ispconfig_create_new_ispconfig_ssl_cert: no
+ispconfig_create_new_ispconfig_ssl_cert: y
 ispconfig_do_backup: yes
 ispconfig_http_server: apache
 ispconfig_install_ispconfig_web_interface: y
