@@ -3,7 +3,7 @@
 language: en_US
 
 # Mail
-mailing_list_name: Mailman
+mailing_list_name: mailman
 
 # ISPConfig
 ispconfig_configure_apache: y
@@ -13,7 +13,7 @@ ispconfig_configure_ftp: y
 ispconfig_configure_jailkit: y
 ispconfig_configure_mail: y
 ispconfig_configure_nginx: n
-ispconfig_create_new_ispconfig_ssl_cert: y
+ispconfig_create_new_ispconfig_ssl_cert: n
 ispconfig_do_backup: yes
 ispconfig_http_server: apache
 ispconfig_install_ispconfig_web_interface: y
