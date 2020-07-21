@@ -6,13 +6,13 @@ ispconfig_patch_version: '2.11'
 php_version: '7.2'
 jailkit_version: '2.20'
 
-mail_admin_email: email@your-company.com
-mail_base_domain: your-company.com
+mail_admin_email: host@xt6.us
+mail_base_domain: xt6.us
 
-ispconfig_hostname: ispconfig.your-company.com
+ispconfig_hostname: atl02.xt6.us
 ispconfig_admin_password: cocoliso123
 
-roundcube_hostname: mail.your-company.com
+roundcube_hostname: atl02.xt6.us 
 roundcube_admin_password: admin
 
 phpmyadmin_hostname: localhost
