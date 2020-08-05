@@ -20,6 +20,9 @@
       - net-tools
       - curl
       - wget
+      - gnupg2
+      - htop
+    dpkg_options: 'force-confold'
     update_cache: yes
 
 # - name: Copia archivos de configuración varios

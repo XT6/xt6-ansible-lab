@@ -8,42 +8,51 @@
   args:
     executable: /bin/sh
 
-- name: Instala paquetes para Elk
+- name: Instala requisitos para Elk
   apt:
     pkg:
       - default-jre
-      - elasticsearch
-      - kibana
-      - logstash
       - nginx
     update_cache: yes
 
-# - name: Crea arbol de directorios en /home/bind9
-#   file:
-#     path: '{{ item.dst }}'
-#     owner: bind9
-#     group: bind9
-#     state: directory
-#     mode: 0755
-#   loop:
-#     - { dst: /home/bind9/etc }
-#     - { dst: /home/bind9/bin }
-#     - { dst: /home/bind9/var }
-#     - { dst: /home/bind9/var/zones }
-#     - { dst: /home/bind9/var/log }
-#     - { dst: /home/bind9/var/run }
-#     - { dst: /home/bind9/var/run/named }
-#     - { dst: /home/bind9/var/tmp }
+- name: Instala Elk Mismo
+  apt:
+    pkg:
+      - elasticsearch
+      - kibana
+      - logstash
+    update_cache: no
 
-# - name: Copia archivos de configuración Elastic & friends
-#   copy:
-#     src: '{{ item.src }}'
-#     dest: '{{ item.dst }}'
-#     owner: '{{ item.o }}'
-#     group: '{{ item.g }}'
-#     mode: '{{ item.mode }}'
-#   loop:
-#     - { src: files/elasticsearch.yml, dst: /etc/elasticsearch/elasticsearch.yml, o: root, g: root, mode: 0644 }  
+
+- name: Crea arbol de directorios 
+  file:
+    path: '{{ item.dst }}'
+    owner: '{{ item.o }}'
+    group: '{{ item.g }}'
+    state: directory
+    mode: '{{ item.mode }}'
+  loop:
+    - { dst: /etc/kibana, o: kibana, g: kibana, mode: '0755' }
+    - { dst: /etc/elasticsearch, o: elasticsearch, g: elasticsearch, mode: '0755' }
+    - { dst: /etc/logstash, o: logstash, g: logstash, mode: '0755' }
+    
+
+- name: Copia archivos de configuración Elastic & friends
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dst }}'
+    owner: '{{ item.o }}'
+    group: '{{ item.g }}'
+    mode: '{{ item.mode }}'
+  loop:
+    - { src: files/elasticsearch.yml, dst: /etc/elasticsearch/elasticsearch.yml, o: elasticsearch, g: elasticsearch, mode: '0644' }  
+    - { src: files/kibana.yml, dst: /etc/kibana/kibana.yml, o: kibana, g: kibana, mode: '0644' }  
+    - { src: files/etc.nginx.sites-available.kibana, dst: /etc/nginx/sites-available/kibana, o: root, g: root, mode: '0644' }      
+
+- name: Configura el acceso a través del NGINX con password 'cocoliso123'
+  shell: |
+     echo "admin:`openssl passwd -apr1 cocoliso123`" | sudo tee -a /etc/nginx/htpasswd.kibana
+     sudo ln -s /etc/nginx/sites-available/kibana /etc/nginx/sites-enabled/kibana
 
 - name: Reinicia procesos varios
   service:
@@ -52,6 +61,8 @@
   loop:
       - elasticsearch
       - kibana
+      - logstash
+      - nginx
 
 # - name: Detiene el proceso de bind9
 #   service:

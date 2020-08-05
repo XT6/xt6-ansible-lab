@@ -8,6 +8,7 @@
 
 - name: Instala el ELK, actualiza paquetes y crea usuarios
   hosts: all
+  become_user: root
   roles:
     - users_and_packages
     - configure_elk

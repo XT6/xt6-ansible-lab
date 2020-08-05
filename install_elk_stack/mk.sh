@@ -1,1 +1,1 @@
-ansible-playbook -i hosts.txt site.yml
+ansible-playbook -u root -k -i hosts.txt site.yml
