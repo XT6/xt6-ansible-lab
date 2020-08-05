@@ -1,0 +1,68 @@
+---
+# Instala repos y paquetes para el Elk
+
+- name: Instalar dependencias para el apt y repos externos
+  shell: | 
+     curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+     echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+  args:
+    executable: /bin/sh
+
+- name: Instala paquetes para Elk
+  apt:
+    pkg:
+      - default-jre
+      - elasticsearch
+      - kibana
+      - logstash
+      - nginx
+    update_cache: yes
+
+# - name: Crea arbol de directorios en /home/bind9
+#   file:
+#     path: '{{ item.dst }}'
+#     owner: bind9
+#     group: bind9
+#     state: directory
+#     mode: 0755
+#   loop:
+#     - { dst: /home/bind9/etc }
+#     - { dst: /home/bind9/bin }
+#     - { dst: /home/bind9/var }
+#     - { dst: /home/bind9/var/zones }
+#     - { dst: /home/bind9/var/log }
+#     - { dst: /home/bind9/var/run }
+#     - { dst: /home/bind9/var/run/named }
+#     - { dst: /home/bind9/var/tmp }
+
+# - name: Copia archivos de configuración Elastic & friends
+#   copy:
+#     src: '{{ item.src }}'
+#     dest: '{{ item.dst }}'
+#     owner: '{{ item.o }}'
+#     group: '{{ item.g }}'
+#     mode: '{{ item.mode }}'
+#   loop:
+#     - { src: files/elasticsearch.yml, dst: /etc/elasticsearch/elasticsearch.yml, o: root, g: root, mode: 0644 }  
+
+- name: Reinicia procesos varios
+  service:
+      name: '{{ item }}'
+      state: restarted
+  loop:
+      - elasticsearch
+      - kibana
+
+# - name: Detiene el proceso de bind9
+#   service:
+#     name: bind9
+#     state: stopped
+
+# - name: Inicia el proceso de bind9
+#   service:
+#     name: bind9
+#     state: started
+
+# # - name: Deshabilito UFW
+# #  ufw:
+# #    state: disabled

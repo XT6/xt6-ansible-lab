@@ -1,0 +1,60 @@
+---
+# ROLE users_and_packages
+#
+# 
+
+- name: Instalar dependencias para el apt 
+  shell: | 
+     /usr/bin/apt clean && /usr/bin/apt update
+  args:
+    executable: /bin/sh
+
+- name: Instalar paquetes varios
+  apt: 
+    pkg: 
+      - bind9utils
+      - bind9-host
+      - sudo
+      - vim
+      - certbot 
+      - net-tools
+      - curl
+      - wget
+    update_cache: yes
+
+# - name: Copia archivos de configuración varios
+#   copy:
+#     src: '{{ item.src }}'
+#     dest: '{{ item.dst }}'
+#     owner: root
+#     group: root
+#     mode: 0644
+#   loop:
+#     - { src: files/etc.hosts, dst: /etc/hosts }
+
+- name: Crear el usuario sadm con home en /home/sadm
+  user: 
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+    home: "/home/{{ item }}"
+    append: yes
+  loop:
+    - sadm
+
+# - name: Copia config. de SNMP
+#  template: 
+#    src=snmpd.conf.j2 
+#    dest=/etc/snmp/snmpd.conf
+
+#- name: Copia /etc/aliases
+#  copy:
+#    src: files/aliases
+#    dest: /etc
+#    owner: root
+#    group: root
+#    mode: 0644
+
+# - name: Deshabilito UFW
+#  ufw:
+#    state: disabled

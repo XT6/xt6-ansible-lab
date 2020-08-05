@@ -1,0 +1,14 @@
+---
+# Este playbook configura un ELK 
+#     - network
+#
+# (c) CarlosM, carlos@lacnic.net
+#
+# v1: 20200803
+
+- name: Instala el ELK, actualiza paquetes y crea usuarios
+  hosts: all
+  roles:
+    - users_and_packages
+    - configure_elk
+
