@@ -5,7 +5,7 @@
 dfw01.xt6.us
 atl01.xt6.us
 atl02.xt6.us
-jfk01.xt6.us
+# jfk01.xt6.us
 
 [proxmox_cluster]
 mulita.in.xt6.us 
@@ -25,8 +25,8 @@ gitlab.in.xt6.us
 trac.in.xt6.us
 ns1.in.xt6.us
 ns2.in.xt6.us
-ns3.in.xt6.us
-cocoliso.in.xt6.us
+# ns3.in.xt6.us ## DEPRECATED
+# cocoliso.in.xt6.us
 hermes.in.xt6.us
 monitor.in.xt6.us
 mediaserver.in.xt6.us
@@ -59,3 +59,6 @@ ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 ansible_user=carlos
 ansible_become=yes
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[vars]
+ansible_python_interpreter=/usr/bin/python3
