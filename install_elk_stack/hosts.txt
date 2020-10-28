@@ -1,2 +1,5 @@
 [proxmox_home]
 elk1.in.xt6.us ansible_connection=paramiko
+
+[proxmox_lacnic]
+179.0.156.3	
