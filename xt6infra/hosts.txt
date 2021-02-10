@@ -32,7 +32,7 @@ monitor.in.xt6.us
 mediaserver.in.xt6.us
 
 [proxmox_cts_turnkey]
-nube.in.xt6.us
+# nube.in.xt6.us
 fserver.in.xt6.us
 openvpn.in.xt6.us
 
