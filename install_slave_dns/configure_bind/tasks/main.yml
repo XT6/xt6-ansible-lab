@@ -28,7 +28,10 @@
   loop:
     - { src: files/db.root, dst: /home/bind9/etc/ }
     - { src: files/named.conf, dst: /home/bind9/etc/ }
+    - { src: files/named.slaves.conf, dst: /home/bind9/etc/ }
+    - { src: files/named.masters.conf, dst: /home/bind9/etc/ }
     - { src: files/named.logging.conf, dst: /home/bind9/etc/ }
+    - { src: files/db.pande.mia, dst: /home/bind9/var/zones }
 
 - name: Copia perfil de apparmor y configuracion default del servicio
   copy:

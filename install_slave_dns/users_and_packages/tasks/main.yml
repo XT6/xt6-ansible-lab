@@ -30,6 +30,8 @@
       - bind9utils
       - bind9-host
       - sudo
+      - vim-tiny
+      - figlet
     update_cache: yes
 
 - name: Crear el usuario bind9 con home en /home/bind9

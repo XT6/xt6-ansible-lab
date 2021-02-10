@@ -22,6 +22,7 @@
       - wget
       - gnupg2
       - htop
+      - tmux
     dpkg_options: 'force-confold'
     update_cache: yes
 

@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = false
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 53, host: 53, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 53, host: 5300, host_ip: "127.0.0.1"
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "site.yml"
@@ -30,9 +30,13 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    echo "¡MAQUINA LISTA!"
+    echo "MAQUINA LISTA!" | figlet -w 120
     echo " "
-    ps aux | grep bind
+    echo "Procesos BIND corriendo:"
+    ps ax | grep bind
+    echo " "
+    echo "SOA para pande.mia:"
+    dig @localhost soa pande.mia +noall +answer +multi
   SHELL
 
 end

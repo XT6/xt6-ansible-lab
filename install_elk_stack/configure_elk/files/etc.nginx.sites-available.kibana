@@ -1,5 +1,5 @@
 server {
-        listen 81;
+        listen 8181;
 
         server_name elk1.in.xt6.us;
 
