@@ -19,6 +19,7 @@ alonso.in.xt6.us
 gdns1.in.xt6.us
 gdns2.in.xt6.us
 gdns3.in.xt6.us
+hermes2.in.xt6.us
 
 [proxmox_cts]
 gitlab.in.xt6.us
